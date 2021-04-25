@@ -1,0 +1,9 @@
+[cmake]
+version = "3.15"
+
+[project]
+name = "cmkr_csharp_template"
+version = "0.1.0"
+languages = ["CSharp"]
+include-after = ["CSharpUtilities"]
+subdirs = ["Example", "WindowsFormsApp"]

@@ -1,0 +1,32 @@
+[target.Example]
+type = "executable"
+sources = [
+    "**.cs",
+    "**.resx",
+    "**.settings",
+    "**.xaml",
+    "App.config",
+]
+compile-options = ["/langversion:latest"]
+cmake-after = """
+csharp_set_designer_cs_properties(${Example_SOURCES})
+csharp_set_xaml_cs_properties(${Example_SOURCES})
+set_property(SOURCE App.xaml PROPERTY VS_XAML_TYPE "ApplicationDefinition")
+"""
+
+[target.Example.properties]
+VS_DOTNET_TARGET_FRAMEWORK_VERSION = "v4.6.1"
+VS_DOTNET_REFERENCES = [
+    "Microsoft.CSharp",
+	"PresentationCore",
+	"PresentationFramework",
+	"System",
+	"System.Core",
+	"System.Data",
+	"System.Data.DataSetExtensions",
+	"System.Net.Http",
+	"System.Xaml",
+	"System.Xml",
+	"System.Xml.Linq",
+	"WindowsBase",
+]

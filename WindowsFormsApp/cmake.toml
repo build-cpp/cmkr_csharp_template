@@ -1,0 +1,23 @@
+[target.WindowsFormsApp]
+type = "executable"
+sources = [
+    "**.cs",
+    "**.resx",
+    "**.settings",
+    "App.config",
+]
+compile-options = ["/langversion:latest"]
+cmake-after = """
+csharp_set_windows_forms_properties(${WindowsFormsApp_SOURCES})
+"""
+
+[target.WindowsFormsApp.properties]
+VS_DOTNET_TARGET_FRAMEWORK_VERSION = "v4.6.1"
+VS_DOTNET_REFERENCES = [
+    "Microsoft.CSharp",
+    "System",
+    "System.Core",
+    "System.Data",
+    "System.Drawing",
+    "System.Windows.Forms",
+]

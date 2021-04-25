@@ -1,56 +1,44 @@
-cmake_minimum_required(VERSION 3.8)
+# This file was generated automatically by cmkr.
 
-project(MyWinFormApp LANGUAGES CSharp)
+# Create a configure-time dependency on cmake.toml to improve IDE support
+if(CMKR_ROOT_PROJECT)
+	configure_file(cmake.toml cmake.toml COPYONLY)
+endif()
 
-# Include CMake utilities for CSharp, for WinForm and WPF application support.
-include(CSharpUtilities)
-
-# Define the executable, including any .cs files. 
-# The .resx and other Properties files are optional here, but including them makes them visible in the VS solution for easy editing. 
-add_executable(MyWinFormApp
-    App.config
-    Form1.cs
-    Form1.Designer.cs
-    Program.cs
-    Properties/AssemblyInfo.cs
-    Properties/Resources.Designer.cs
-    Properties/Resources.resx
-    Properties/Settings.Designer.cs
-    Properties/Settings.settings
+# Target WindowsFormsApp
+set(WindowsFormsApp_SOURCES
+	Form1.Designer.cs
+	Form1.cs
+	Program.cs
+	"Properties/AssemblyInfo.cs"
+	"Properties/Resources.Designer.cs"
+	"Properties/Settings.Designer.cs"
+	"Properties/Resources.resx"
+	"Properties/Settings.settings"
+	App.config
+	cmake.toml
 )
 
-# Set the .NET Framework version for the executable.
-set_property(TARGET MyWinFormApp PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.6.1")
-# Set the executable to be 32-bit.
-set_property(TARGET MyWinFormApp PROPERTY WIN32_EXECUTABLE TRUE)
-# Set the C# language version (defaults to 3.0).
-set(CMAKE_CSharp_FLAGS "/langversion:latest")
+add_executable(WindowsFormsApp ${WindowsFormsApp_SOURCES})
 
-# Set the source file properties for Windows Forms use.
-csharp_set_windows_forms_properties(
-    Form1.cs
-    Form1.Designer.cs
-    Program.cs
-    Properties/AssemblyInfo.cs
-    Properties/Resources.Designer.cs
-    Properties/Resources.resx
-    Properties/Settings.Designer.cs
-    Properties/Settings.settings
+get_directory_property(CMKR_VS_STARTUP_PROJECT DIRECTORY ${PROJECT_SOURCE_DIR} DEFINITION VS_STARTUP_PROJECT)
+if(NOT CMKR_VS_STARTUP_PROJECT)
+	set_property(DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT WindowsFormsApp)
+endif()
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${WindowsFormsApp_SOURCES})
+
+target_compile_options(WindowsFormsApp PRIVATE
+	"/langversion:latest"
 )
 
-# If necessary, link in other library dependencies that were built locally in this source tree.
-#target_link_libraries(MyWinFormApp MyLocalLib)
-
-# If necessary, link in other library/DLL references, such as 3rd party libraries.
-#set_property(TARGET MyWinFormApp PROPERTY 
-#    VS_DOTNET_REFERENCE_MyThirdPartyLib /path/to/libs/MyThirdPartyLib.dll)
-
-# Add in the .NET reference libraries.
-set_property(TARGET MyWinFormApp PROPERTY VS_DOTNET_REFERENCES
-    "Microsoft.CSharp"
-    "System"
-    "System.Core"
-    "System.Data"
-    "System.Drawing"
-    "System.Windows.Forms"
+set_target_properties(WindowsFormsApp PROPERTIES
+	VS_DOTNET_TARGET_FRAMEWORK_VERSION
+		v4.6.1
+	VS_DOTNET_REFERENCES
+		"Microsoft.CSharp;System;System.Core;System.Data;System.Drawing;System.Windows.Forms"
 )
+
+csharp_set_windows_forms_properties(${WindowsFormsApp_SOURCES})
+
+
